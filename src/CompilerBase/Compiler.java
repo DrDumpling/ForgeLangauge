@@ -21,6 +21,7 @@ public class Compiler {
         List<Pattern<Character, ProgramToken>> patterns = new ArrayList<>(){{
             add(NumericalToken.getPattern());
             add(CharacterToken.getPattern(program));
+            add(KeywordToken.getPattern());
             add((input, i) -> (Arrays.asList(' ', '\n', '\t', '\r', '\f').contains(input.get(i))) ?
                     Optional.of(ConvertResult.of(new WhitespaceToken())) :
                     Optional.empty());
