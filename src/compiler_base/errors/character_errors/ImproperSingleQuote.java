@@ -1,7 +1,7 @@
-package CompilerBase.Errors.CharacterErrors;
+package compiler_base.errors.character_errors;
 
-import CompilerBase.Errors.CompilerErrorHelper;
-import CompilerBase.Errors.ErrorAttachments.HelpAttachment;
+import compiler_base.errors.CompilerErrorHelper;
+import compiler_base.errors.error_attachments.HelpAttachment;
 
 import java.util.List;
 

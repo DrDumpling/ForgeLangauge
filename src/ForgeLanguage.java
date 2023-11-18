@@ -1,4 +1,4 @@
-import CompilerBase.Compiler;
+import compiler_base.Compiler;
 
 import java.io.File;
 import java.io.IOException;

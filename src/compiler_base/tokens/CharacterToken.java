@@ -1,8 +1,8 @@
-package CompilerBase.tokens;
+package compiler_base.tokens;
 
-import CompilerBase.Errors.CharacterErrors.EmptyCharacterLiteral;
-import CompilerBase.Errors.CharacterErrors.ImproperSingleQuote;
-import CompilerBase.Errors.CharacterErrors.UnclosedCharacterLiteral;
+import compiler_base.errors.character_errors.EmptyCharacterLiteral;
+import compiler_base.errors.character_errors.ImproperSingleQuote;
+import compiler_base.errors.character_errors.UnclosedCharacterLiteral;
 import tools.ConvertResult;
 import tools.Pattern;
 

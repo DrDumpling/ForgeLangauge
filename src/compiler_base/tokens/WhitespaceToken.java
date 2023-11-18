@@ -1,4 +1,4 @@
-package CompilerBase.tokens;
+package compiler_base.tokens;
 
 public final class WhitespaceToken implements ProgramToken {
     @Override

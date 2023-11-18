@@ -1,4 +1,4 @@
-package CompilerBase.Errors.ErrorAttachments;
+package compiler_base.errors.error_attachments;
 
 final public class ExpectationAttachment implements ErrorAttachment {
 

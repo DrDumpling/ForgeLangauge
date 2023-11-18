@@ -1,6 +1,6 @@
-package CompilerBase.Errors;
+package compiler_base.errors;
 
-import CompilerBase.Errors.ErrorAttachments.ErrorAttachment;
+import compiler_base.errors.error_attachments.ErrorAttachment;
 
 import java.util.List;
 

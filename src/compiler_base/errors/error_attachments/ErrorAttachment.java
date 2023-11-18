@@ -1,4 +1,4 @@
-package CompilerBase.Errors.ErrorAttachments;
+package compiler_base.errors.error_attachments;
 
 public sealed interface ErrorAttachment permits ExpectationAttachment, HelpAttachment {
     String getPrefix();

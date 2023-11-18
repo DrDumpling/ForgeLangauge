@@ -1,6 +1,6 @@
-package CompilerBase.Errors.CharacterErrors;
+package compiler_base.errors.character_errors;
 
-import CompilerBase.Errors.CompilerErrorHelper;
+import compiler_base.errors.CompilerErrorHelper;
 
 public class UnclosedCharacterLiteral extends RuntimeException {
     public UnclosedCharacterLiteral(String program, int charLocation) {

@@ -1,6 +1,6 @@
-package CompilerBase;
+package compiler_base;
 
-import CompilerBase.tokens.*;
+import compiler_base.tokens.*;
 import tools.ConvertResult;
 import tools.Pattern;
 import tools.PatternConverter;

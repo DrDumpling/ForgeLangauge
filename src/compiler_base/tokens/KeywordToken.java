@@ -1,4 +1,4 @@
-package CompilerBase.tokens;
+package compiler_base.tokens;
 
 import tools.ConvertResult;
 import tools.Pattern;
