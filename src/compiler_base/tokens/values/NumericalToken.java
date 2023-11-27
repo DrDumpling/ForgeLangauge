@@ -1,5 +1,6 @@
-package compiler_base.tokens;
+package compiler_base.tokens.values;
 
+import compiler_base.tokens.ProgramToken;
 import tools.ConvertResult;
 import tools.Pattern;
 

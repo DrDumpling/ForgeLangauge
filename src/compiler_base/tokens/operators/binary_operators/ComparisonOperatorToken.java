@@ -17,13 +17,13 @@ public enum ComparisonOperatorToken implements ProgramToken {
     public static Pattern<Character, ProgramToken> getPattern() {
         return (input, i) -> {
             if (input.get(i) == '!' && input.get(i + 1) == '=')
-                return Optional.of(ConvertResult.of(ComparisonOperatorToken.NOT_EQUAL));
+                return Optional.of(ConvertResult.of(ComparisonOperatorToken.NOT_EQUAL, 2));
             if (input.get(i) == '<' && input.get(i + 1) == '=')
-                return Optional.of(ConvertResult.of(ComparisonOperatorToken.LESS_THAN_OR_EQUAL));
+                return Optional.of(ConvertResult.of(ComparisonOperatorToken.LESS_THAN_OR_EQUAL, 2));
             if (input.get(i) == '>' && input.get(i + 1) == '=')
-                return Optional.of(ConvertResult.of(ComparisonOperatorToken.GREATER_THAN_OR_EQUAL));
+                return Optional.of(ConvertResult.of(ComparisonOperatorToken.GREATER_THAN_OR_EQUAL, 2));
             if (input.get(i) == '=' && input.get(i + 1) == '=')
-                return Optional.of(ConvertResult.of(ComparisonOperatorToken.EQUALS));
+                return Optional.of(ConvertResult.of(ComparisonOperatorToken.EQUALS, 2));
             if (input.get(i) == '<')
                 return Optional.of(ConvertResult.of(ComparisonOperatorToken.LESS_THAN));
             if (input.get(i) == '>')

@@ -1,13 +1,17 @@
-package compiler_base.tokens;
+package compiler_base.tokens.values;
 
 import compiler_base.errors.character_errors.EmptyCharacterLiteral;
 import compiler_base.errors.character_errors.ImproperSingleQuote;
 import compiler_base.errors.character_errors.UnclosedCharacterLiteral;
+import compiler_base.tokens.ProgramToken;
+import tools.CharacterEscapeCode;
 import tools.ConvertResult;
 import tools.Pattern;
 
 import java.util.List;
 import java.util.Optional;
+
+import static tools.CharacterEscapeCode.manageEscapeCodes;
 
 public final class CharacterToken implements ProgramToken {
     final char heldChar;
@@ -21,22 +25,13 @@ public final class CharacterToken implements ProgramToken {
         return "CharacterToken[" + heldChar + "]";
     }
 
-    static private class CharacterMapping {
-        char escapeCode;
-        char codeValue;
-
-        CharacterMapping(char escapeCode, char codeValue) {
-            this.escapeCode = escapeCode;
-            this.codeValue = codeValue;
-        }
-    }
-
     public static Pattern<Character, ProgramToken> getPattern(String program) {
         return (input, i) -> {
             if (input.get(i) != '\'') return Optional.empty();
 
             if(input.get(i + 1) == '\\') {
-                CharacterMapping mapping = manageEscapeCodes(program, input, i);
+                if(input.get(i + 3) != '\'') throw new UnclosedCharacterLiteral(program, i + 3);
+                CharacterEscapeCode.CharacterMapping mapping = manageEscapeCodes(input, i + 2);
                 return Optional.of(ConvertResult.of(new CharacterToken(mapping.codeValue), 4));
             }
 
@@ -55,23 +50,5 @@ public final class CharacterToken implements ProgramToken {
         } else {
             throw new EmptyCharacterLiteral(program, i);
         }
-    }
-
-    private static CharacterMapping manageEscapeCodes(String program, List<Character> input, int i) {
-        if(input.get(i + 3) != '\'') throw new UnclosedCharacterLiteral(program, i + 3);
-        for(CharacterMapping mapping: new CharacterMapping[]{
-                new CharacterMapping('t', '\t'),
-                new CharacterMapping('b', '\b'),
-                new CharacterMapping('n', '\n'),
-                new CharacterMapping('r', '\r'),
-                new CharacterMapping('\'', '\''),
-                new CharacterMapping('\"', '\"'),
-                new CharacterMapping('\\', '\\'),
-        }) {
-            if(input.get(i + 2) == mapping.escapeCode)
-                return mapping;
-        }
-        //INVALID ESCAPE CODE
-        throw new RuntimeException("TODO");
     }
 }

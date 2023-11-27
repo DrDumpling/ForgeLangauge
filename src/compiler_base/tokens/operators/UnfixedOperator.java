@@ -11,7 +11,9 @@ public enum UnfixedOperator implements ProgramToken {
     OPENING_BRACE,
     CLOSING_BRACE,
     OPENING_BRACKET,
-    CLOSING_BRACKET;
+    CLOSING_BRACKET,
+    OPENING_PARENTHESES,
+    CLOSING_PARENTHESES;
 
     public static Pattern<Character, ProgramToken> getPattern() {
         return (input, i) -> {
@@ -25,6 +27,10 @@ public enum UnfixedOperator implements ProgramToken {
                 return Optional.of(ConvertResult.of(OPENING_BRACKET));
             if (input.get(i) == ']')
                 return Optional.of(ConvertResult.of(CLOSING_BRACKET));
+            if (input.get(i) == '(')
+                return Optional.of(ConvertResult.of(OPENING_PARENTHESES));
+            if (input.get(i) == ')')
+                return Optional.of(ConvertResult.of(CLOSING_PARENTHESES));
             return Optional.empty();
         };
     }

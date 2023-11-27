@@ -1,4 +1,6 @@
 int x = 0;
 int y = 10;
 
+string str = "test\n";
+
 char z = '\'';

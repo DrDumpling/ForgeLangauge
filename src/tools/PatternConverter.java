@@ -20,7 +20,6 @@ public class PatternConverter<I, O> {
                 // no patterns match
                 throw new IllegalStateException("Unable to match to value " + input.get(inputIndex));
             }
-            System.out.println(output);
         }
 
         return output;

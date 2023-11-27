@@ -1,11 +1,12 @@
-package compiler_base.tokens;
+package compiler_base.tokens.non_specific;
 
+import compiler_base.tokens.ProgramToken;
 import tools.ConvertResult;
 import tools.Pattern;
 
 import java.util.Optional;
 
-import static compiler_base.tokens.KeywordToken.keywordMappings;
+import static compiler_base.tokens.non_specific.KeywordToken.keywordMappings;
 
 public final class NameToken implements ProgramToken {
 
@@ -17,7 +18,7 @@ public final class NameToken implements ProgramToken {
 
     @Override
     public String toString() {
-        return "KeywordToken[" + heldName + "]";
+        return "NameToken[" + heldName + "]";
     }
 
     private static boolean isValidNameStart(char c) {
