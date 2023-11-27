@@ -18,8 +18,9 @@ public class PatternConverter<I, O> {
                 inputIndex += convertResult.getSize();
             } else {
                 // no patterns match
-                throw new IllegalStateException("Unexpected State");
+                throw new IllegalStateException("Unable to match to value " + input.get(inputIndex));
             }
+            System.out.println(output);
         }
 
         return output;

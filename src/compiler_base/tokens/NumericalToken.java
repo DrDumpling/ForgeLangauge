@@ -26,6 +26,7 @@ public final class NumericalToken implements ProgramToken {
                     numericalString.append(input.get(i + 1));
                     i += 1;
                 }
+
                 return Optional.of(
                         ConvertResult.of(
                                 new NumericalToken(Long.parseLong(numericalString.toString())),
