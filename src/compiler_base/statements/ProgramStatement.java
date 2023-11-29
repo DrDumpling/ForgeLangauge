@@ -1,3 +1,8 @@
 package compiler_base.statements;
 
-public interface ProgramStatement {}
+import runtime.Environment;
+
+public interface ProgramStatement {
+
+    void runStatement(Environment environment);
+}

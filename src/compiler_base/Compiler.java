@@ -13,8 +13,6 @@ public class Compiler {
         List<ProgramToken> tokens = tokenizer.tokenize(program);
         tokens = tokenizer.cleanTokens(tokens);
 
-        System.out.println(tokens);
-
         return StatementConverter.convert(tokens);
     }
 }

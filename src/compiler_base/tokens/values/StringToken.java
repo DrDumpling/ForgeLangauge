@@ -26,7 +26,9 @@ public class StringToken implements ProgramToken {
         return (input, i) -> {
             if (input.get(i) != '"') return Optional.empty();
 
+            int startingOffset = i;
             i++;
+
             StringBuilder builtString = new StringBuilder();
 
             while(input.get(i) != '"') {
@@ -40,10 +42,10 @@ public class StringToken implements ProgramToken {
                     i += 1;
                 }
             }
-            //not entirely sure why +3 is required, should look into it at a later date
+            //not entirely sure why +3 is required instead of +2, should look into it at a later date
             return Optional.of(ConvertResult.of(
                     new StringToken(builtString.toString()),
-                    builtString.length() + 3)
+                    i - startingOffset + 1)
             );
         };
     }

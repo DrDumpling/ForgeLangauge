@@ -1,6 +1,6 @@
 int x = 0;
 int y = 10;
 
-string str = "test\n";
+string str = "test\tt\\est\nte\\st\ttest";
 
 char z = '\'';

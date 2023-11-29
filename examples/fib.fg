@@ -1,7 +1,6 @@
 fun main() {
-    print(fib(3));
-    print(fib(4));
-    print(fib(10));
+    if(true) {
+    }
 }
 
 fun fib(n: int) {

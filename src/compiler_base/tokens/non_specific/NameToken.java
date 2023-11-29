@@ -10,7 +10,7 @@ import static compiler_base.tokens.non_specific.KeywordToken.keywordMappings;
 
 public final class NameToken implements ProgramToken {
 
-    String heldName;
+    public final String heldName;
 
     public NameToken(String input) {
         heldName = input;

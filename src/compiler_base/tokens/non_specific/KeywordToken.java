@@ -6,9 +6,9 @@ import java.util.HashMap;
 
 public final class KeywordToken implements ProgramToken {
 
-    Keyword heldKeyword;
+    public final Keyword heldKeyword;
 
-    enum Keyword {
+    public enum Keyword {
         INT,
         CHAR,
         STRING,

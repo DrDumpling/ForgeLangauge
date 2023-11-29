@@ -1,9 +1,6 @@
 package compiler_base.tokens;
 
-import compiler_base.tokens.non_specific.ColonToken;
-import compiler_base.tokens.non_specific.NameToken;
-import compiler_base.tokens.non_specific.StatementEndToken;
-import compiler_base.tokens.non_specific.WhitespaceToken;
+import compiler_base.tokens.non_specific.*;
 import compiler_base.tokens.operators.UnaryOperators;
 import compiler_base.tokens.operators.UnfixedOperator;
 import compiler_base.tokens.operators.binary_operators.BitwiseOperatorToken;
@@ -41,6 +38,7 @@ public class Tokenizer {
             add(UnfixedOperator.getPattern());
             add(UnaryOperators.getPattern());
             add(ColonToken.getPattern());
+            add(CommaToken.getPattern());
         }};
 
         return new PatternConverter<Character, ProgramToken>().convert(
