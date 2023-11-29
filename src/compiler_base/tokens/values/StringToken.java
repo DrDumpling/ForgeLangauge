@@ -11,7 +11,7 @@ import java.util.Optional;
 import static tools.CharacterEscapeCode.manageEscapeCodes;
 
 public class StringToken implements ProgramToken {
-    String heldString;
+    public final String heldString;
 
     public StringToken(String heldString) {
         this.heldString = heldString;

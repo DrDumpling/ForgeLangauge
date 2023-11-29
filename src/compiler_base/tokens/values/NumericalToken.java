@@ -7,7 +7,7 @@ import tools.Pattern;
 import java.util.Optional;
 
 public final class NumericalToken implements ProgramToken {
-    final Long heldValue;
+    public final long heldValue;
     public NumericalToken(Long input) {
         heldValue = input;
     }

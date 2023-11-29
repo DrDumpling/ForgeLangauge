@@ -1,8 +1,8 @@
-package compiler_base.statements;
+package compiler_base.statements_nodes;
 
 import runtime.Environment;
 
-public interface ProgramStatement {
+public interface ProgramNodeStatement {
 
     void runStatement(Environment environment);
 }

@@ -1,6 +1,5 @@
 fun main() {
-    if(true) {
-    }
+
 }
 
 fun fib(n: int) {

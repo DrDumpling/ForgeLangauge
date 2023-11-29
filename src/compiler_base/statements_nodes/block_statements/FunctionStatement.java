@@ -1,7 +1,7 @@
-package compiler_base.statements.block_statements;
+package compiler_base.statements_nodes.block_statements;
 
-import compiler_base.statements.ProgramStatement;
-import compiler_base.statements.StatementConverter;
+import compiler_base.statements_nodes.ProgramNodeStatement;
+import compiler_base.statements_nodes.StatementConverter;
 import compiler_base.tokens.ProgramToken;
 import compiler_base.tokens.non_specific.ColonToken;
 import compiler_base.tokens.non_specific.CommaToken;
@@ -19,12 +19,12 @@ import java.util.Optional;
 
 public class FunctionStatement extends BlockStatement {
     String functionName;
-    List<NameToken> takenVariables;
+    List<String> takenVariables;
 
-    FunctionStatement(String functionName, List<NameToken> takenVariables, List<ProgramStatement> programStatements) {
+    FunctionStatement(String functionName, List<String> takenVariables, List<ProgramNodeStatement> programNodeStatements) {
         this.functionName = functionName;
         this.takenVariables = takenVariables;
-        this.heldStatements = programStatements;
+        this.heldStatements = programNodeStatements;
     }
 
     //starts with fun, valid name, (
@@ -41,10 +41,9 @@ public class FunctionStatement extends BlockStatement {
         return input.get(i + 2) == UnfixedOperator.OPENING_PARENTHESES;
     }
 
-    public static Pattern<ProgramToken, ProgramStatement> getPattern() {
+    public static Pattern<ProgramToken, ProgramNodeStatement> getPattern() {
         return (input, i) -> {
-            System.out.println(input);
-            List<NameToken> takenVariables = new ArrayList<>();
+            List<String> takenVariables = new ArrayList<>();
             String functionName;
 
             if(verifyStart(input, i)) {
@@ -56,22 +55,21 @@ public class FunctionStatement extends BlockStatement {
             // repeating valid type, valid name, comma
             int paramCount = 0;
             int paramStart = i + 3;
-            ListIterator<ProgramToken> paramTokenIter = input.listIterator(paramStart);
 
             if(input.get(paramStart) != UnfixedOperator.CLOSING_PARENTHESES) {
+                ListIterator<ProgramToken> paramTokenIter = input.listIterator(paramStart);
+
                 while (true) {
                     if (paramTokenIter.next() instanceof NameToken nameToken) {
-                        takenVariables.add(nameToken);
+                        takenVariables.add(nameToken.heldName);
                     } else {
                         return Optional.empty();
                     }
 
-                    if (!(paramTokenIter.next() instanceof ColonToken))
-                        return Optional.empty();
+                    if (!(paramTokenIter.next() instanceof ColonToken)) return Optional.empty();
 
                     if (!(paramTokenIter.next() instanceof KeywordToken keywordToken &&
-                            keywordToken.heldKeyword.isType(keywordToken.heldKeyword)))
-                        return Optional.empty();
+                            keywordToken.heldKeyword.isType(keywordToken.heldKeyword))) return Optional.empty();
 
                     ProgramToken possibleEnd = paramTokenIter.next();
                     if (possibleEnd == UnfixedOperator.CLOSING_PARENTHESES) {
@@ -95,7 +93,7 @@ public class FunctionStatement extends BlockStatement {
             } else return Optional.empty();
 
             List<ProgramToken> parsedStatements = input.subList(afterParamsIndex + 1, matchingBracePosition);
-            List<ProgramStatement> heldStatements = StatementConverter.convert(parsedStatements);
+            List<ProgramNodeStatement> heldStatements = StatementConverter.convert(parsedStatements);
 
             return Optional.of(ConvertResult.of(new FunctionStatement(functionName, takenVariables, heldStatements),
                     matchingBracePosition - i + 1));
@@ -105,8 +103,13 @@ public class FunctionStatement extends BlockStatement {
     @Override
     public void runStatement(Environment environment) {
         Environment heldEnvironment = new Environment();
-        for(ProgramStatement currentStatement: heldStatements) {
+        for(ProgramNodeStatement currentStatement: heldStatements) {
             currentStatement.runStatement(heldEnvironment);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "fun: " + this.functionName + heldStatements;
     }
 }

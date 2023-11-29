@@ -14,7 +14,7 @@ import java.util.Optional;
 import static tools.CharacterEscapeCode.manageEscapeCodes;
 
 public final class CharacterToken implements ProgramToken {
-    final char heldChar;
+    public final char heldChar;
 
     public CharacterToken(char input) {
         heldChar = input;
