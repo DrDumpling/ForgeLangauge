@@ -23,13 +23,14 @@ public class StatementConverter {
         add(FunctionStatement.getPattern());
         add(IfStatement.getPattern());
         add(ReturnStatement.getPattern());
+        add(FunctionCallStatement.getPattern());
     }};
 
     static List<Function<List<ProgramToken>, Optional<EvaluatedNode>>> nodeMatchers = Arrays.asList(
-            FunctionCallNode::matches,
             MultiplicativeNode::matches,
             AdditiveNode::matches,
             RelationalNode::matches,
+            FunctionCallNode::matches,
             BasicValueNode::matches
     );
 
@@ -41,7 +42,6 @@ public class StatementConverter {
     }
 
     public static EvaluatedNode evaluateTokens(List<ProgramToken> inputTokens) {
-        System.out.println(inputTokens);
         for (Function<List<ProgramToken>, Optional<EvaluatedNode>> matcher : nodeMatchers) {
             Optional<EvaluatedNode> node = matcher.apply(inputTokens);
             if (node.isPresent()) {

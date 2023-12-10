@@ -1,5 +1,5 @@
 fun main() {
-
+    fib(0);
 }
 
 fun fib(n: int) {

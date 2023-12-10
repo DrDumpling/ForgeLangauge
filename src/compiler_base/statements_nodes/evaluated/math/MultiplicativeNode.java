@@ -3,6 +3,7 @@ package compiler_base.statements_nodes.evaluated.math;
 import compiler_base.statements_nodes.StatementConverter;
 import compiler_base.statements_nodes.evaluated.EvaluatedNode;
 import compiler_base.tokens.ProgramToken;
+import compiler_base.tokens.operators.UnfixedOperator;
 import compiler_base.tokens.operators.binary_operators.MathOperatorToken;
 import runtime.Environment;
 
@@ -37,6 +38,11 @@ public sealed class MultiplicativeNode implements EvaluatedNode {
     public static Optional<EvaluatedNode> matches(List<ProgramToken> input) {
         for(int i = 0; i < input.size(); i++) {
             ProgramToken comparedToken = input.get(i);
+            if(comparedToken == UnfixedOperator.OPENING_PARENTHESES) {
+                i = ((UnfixedOperator)input.get(i)).findMatchingToken(input,i);
+                continue;
+            }
+
             //may be faster if you don't initialize left and right until needed
             List<ProgramToken> left = input.subList(0, i);
             List<ProgramToken> right = input.subList(i+1, input.size());

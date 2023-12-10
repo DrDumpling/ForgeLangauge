@@ -44,7 +44,6 @@ public class FunctionCallNode implements EvaluatedNode {
                     currentTokens = new ArrayList<>();
                 } else {
                     currentTokens.add(input.get(paramIndex));
-                    System.out.println("CURRENT: " + currentTokens);
                 }
             }
 
@@ -57,7 +56,8 @@ public class FunctionCallNode implements EvaluatedNode {
 
     @Override
     public void runStatement(Environment environment) {
-
+        Environment newEnvironment = new Environment();
+        System.out.println("running: " + this.functionName + " | params: " + this.params);
     }
 
     @Override

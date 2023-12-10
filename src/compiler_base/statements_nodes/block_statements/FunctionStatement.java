@@ -18,7 +18,7 @@ import java.util.ListIterator;
 import java.util.Optional;
 
 public class FunctionStatement extends BlockStatement {
-    String functionName;
+    public String functionName;
     List<String> takenVariables;
 
     FunctionStatement(String functionName, List<String> takenVariables, List<ProgramNodeStatement> programNodeStatements) {
@@ -102,9 +102,9 @@ public class FunctionStatement extends BlockStatement {
 
     @Override
     public void runStatement(Environment environment) {
-        Environment heldEnvironment = new Environment();
+        System.out.println("running: " + this.functionName);
         for(ProgramNodeStatement currentStatement: heldStatements) {
-            currentStatement.runStatement(heldEnvironment);
+            currentStatement.runStatement(environment);
         }
     }
 
