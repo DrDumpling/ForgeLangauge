@@ -14,14 +14,14 @@ import java.util.List;
 import java.util.Optional;
 
 public class IfStatement extends BlockStatement {
-    EvaluatedNode evaluatedNode;
+    EvaluatedNode<Boolean> evaluatedNode;
 
-    IfStatement(List<ProgramNodeStatement> programNodeStatements, EvaluatedNode evaluatedNode) {
+    IfStatement(List<ProgramNodeStatement<Void>> programNodeStatements, EvaluatedNode<Boolean> evaluatedNode) {
         this.heldStatements = programNodeStatements;
         this.evaluatedNode = evaluatedNode;
     }
 
-    public static Pattern<ProgramToken, ProgramNodeStatement> getPattern() {
+    public static Pattern<ProgramToken, ProgramNodeStatement<Void>> getPattern() {
         return (input, i) -> {
             if(!(input.get(i) instanceof KeywordToken keywordToken &&
                     keywordToken.heldKeyword == KeywordToken.Keyword.IF))
@@ -31,7 +31,7 @@ public class IfStatement extends BlockStatement {
                 return Optional.empty();
 
             int matchingParenthesesPosition = ((UnfixedOperator) input.get(i + 1)).findMatchingToken(input, i + 1);
-            EvaluatedNode evaluatedNode = StatementConverter.evaluateTokens(input.subList(i + 2, matchingParenthesesPosition));
+            EvaluatedNode<Boolean> evaluatedNode = StatementConverter.evaluateTokens(input.subList(i + 2, matchingParenthesesPosition));
 
             int startingBracePosition = matchingParenthesesPosition + 1;
             int matchingBracePosition;
@@ -44,15 +44,20 @@ public class IfStatement extends BlockStatement {
             }
 
             List<ProgramToken> parsedStatements = input.subList(startingBracePosition + 1, matchingBracePosition);
-            List<ProgramNodeStatement> heldStatements = StatementConverter.convert(parsedStatements);
+            List<ProgramNodeStatement<Void>> heldStatements = StatementConverter.convert(parsedStatements);
 
             return Optional.of(ConvertResult.of(new IfStatement(heldStatements, evaluatedNode), matchingBracePosition - i + 1));
         };
     }
 
     @Override
-    public void runStatement(Environment environment) {
-
+    public Void runStatement(Environment environment) {
+        if(evaluatedNode.runStatement(environment)) {
+            for(ProgramNodeStatement<Void> heldStatement: heldStatements) {
+                heldStatement.runStatement(environment);
+            }
+        }
+        return null;
     }
 
     @Override

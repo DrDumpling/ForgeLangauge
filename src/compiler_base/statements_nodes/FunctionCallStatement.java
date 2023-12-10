@@ -18,7 +18,7 @@ public class FunctionCallStatement implements ProgramNodeStatement {
         this.calledFunction = calledFunction;
     }
 
-    public static Pattern<ProgramToken, ProgramNodeStatement> getPattern() {
+    public static Pattern<ProgramToken, ProgramNodeStatement<Void>> getPattern() {
         return (input, i) -> {
             if(!(input.get(input.size() - 1) instanceof StatementEndToken)) {
                 return Optional.empty();
@@ -36,7 +36,9 @@ public class FunctionCallStatement implements ProgramNodeStatement {
     }
 
     @Override
-    public void runStatement(Environment environment) {
+    public Void runStatement(Environment environment) {
         calledFunction.runStatement(environment);
+
+        return null;
     }
 }

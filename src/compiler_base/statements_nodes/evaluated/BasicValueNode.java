@@ -10,8 +10,8 @@ import runtime.Environment;
 import java.util.List;
 import java.util.Optional;
 
-sealed public class BasicValueNode implements EvaluatedNode {
-    static final class VariableValue extends BasicValueNode {
+sealed public abstract class BasicValueNode<T> implements EvaluatedNode<T> {
+    static final class VariableValue<T> extends BasicValueNode<T> {
         final String variableName;
         VariableValue(String variableName) {
             this.variableName = variableName;
@@ -21,10 +21,15 @@ sealed public class BasicValueNode implements EvaluatedNode {
         public String toString() {
             return "VariableValue: " + variableName;
         }
+
+        @Override
+        public T runStatement(Environment environment) {
+            return environment.getVariable(variableName);
+        }
     }
-    static final class IntValue extends BasicValueNode {
-        final long heldValue;
-        IntValue(long heldValue) {
+    static final class IntValue extends BasicValueNode<Integer> {
+        final int heldValue;
+        IntValue(int heldValue) {
             this.heldValue = heldValue;
         }
 
@@ -32,8 +37,13 @@ sealed public class BasicValueNode implements EvaluatedNode {
         public String toString() {
             return heldValue + "";
         }
+
+        @Override
+        public Integer runStatement(Environment environment) {
+            return heldValue;
+        }
     }
-    static final class BoolValue extends BasicValueNode {
+    static final class BoolValue extends BasicValueNode<Boolean> {
         final boolean heldValue;
         BoolValue(boolean heldValue) {
             this.heldValue = heldValue;
@@ -43,8 +53,13 @@ sealed public class BasicValueNode implements EvaluatedNode {
         public String toString() {
             return heldValue + "";
         }
+
+        @Override
+        public Boolean runStatement(Environment environment) {
+            return heldValue;
+        }
     }
-    static final class CharValue extends BasicValueNode {
+    static final class CharValue extends BasicValueNode<Character> {
         final char heldValue;
         CharValue(char heldValue) {
             this.heldValue = heldValue;
@@ -54,8 +69,13 @@ sealed public class BasicValueNode implements EvaluatedNode {
         public String toString() {
             return heldValue + "";
         }
+
+        @Override
+        public Character runStatement(Environment environment) {
+            return heldValue;
+        }
     }
-    static final class StringValue extends BasicValueNode {
+    static final class StringValue extends BasicValueNode<String> {
         final String heldValue;
         StringValue(String heldValue) {
             this.heldValue = heldValue;
@@ -65,8 +85,13 @@ sealed public class BasicValueNode implements EvaluatedNode {
         public String toString() {
             return heldValue;
         }
+
+        @Override
+        public String runStatement(Environment environment) {
+            return heldValue;
+        }
     }
-    static final class DoubleValue extends BasicValueNode {
+    static final class DoubleValue extends BasicValueNode<Double> {
         final double heldValue;
         DoubleValue(double heldValue) {
             this.heldValue = heldValue;
@@ -75,6 +100,11 @@ sealed public class BasicValueNode implements EvaluatedNode {
         @Override
         public String toString() {
             return heldValue + "";
+        }
+
+        @Override
+        public Double runStatement(Environment environment) {
+            return heldValue;
         }
     }
 
@@ -89,10 +119,5 @@ sealed public class BasicValueNode implements EvaluatedNode {
 //        if(input.get(0) instanceof DoubleToken doubleToken) return Optional.of(new DoubleValue(doubleToken.heldDouble));
 
         return Optional.empty();
-    }
-
-    @Override
-    public void runStatement(Environment environment) {
-
     }
 }

@@ -10,7 +10,7 @@ import runtime.Environment;
 import java.util.List;
 import java.util.Optional;
 
-public sealed class MultiplicativeNode implements EvaluatedNode {
+public sealed class MultiplicativeNode implements EvaluatedNode<Integer> {
     static final class MultiplyNode extends MultiplicativeNode {
         MultiplyNode(EvaluatedNode left, EvaluatedNode right) {
             super(left, right);
@@ -69,7 +69,7 @@ public sealed class MultiplicativeNode implements EvaluatedNode {
     }
 
     @Override
-    public void runStatement(Environment environment) {
-
+    public Integer runStatement(Environment environment) {
+        throw new RuntimeException("TODO!!");
     }
 }

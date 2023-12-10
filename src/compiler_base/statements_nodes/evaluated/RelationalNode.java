@@ -8,7 +8,7 @@ import runtime.Environment;
 import java.util.List;
 import java.util.Optional;
 
-public sealed class RelationalNode implements EvaluatedNode {
+public sealed class RelationalNode implements EvaluatedNode<Boolean> {
     static final class EqualsNode extends RelationalNode {
         EqualsNode(EvaluatedNode left, EvaluatedNode right) {
             super(left, right);
@@ -40,8 +40,8 @@ public sealed class RelationalNode implements EvaluatedNode {
         }
     }
 
-    final EvaluatedNode left;
-    final EvaluatedNode right;
+    final EvaluatedNode<?> left;
+    final EvaluatedNode<?> right;
 
     private RelationalNode(EvaluatedNode left, EvaluatedNode right) {
         this.left = left;
@@ -76,7 +76,16 @@ public sealed class RelationalNode implements EvaluatedNode {
     }
 
     @Override
-    public void runStatement(Environment environment) {
-
+    public Boolean runStatement(Environment environment) {
+        if(this instanceof RelationalNode.EqualsNode) {
+            System.out.println(left + " | " + right);
+            System.out.println(left.runStatement(environment));
+            System.out.println(right.runStatement(environment));
+            System.out.println(left.runStatement(environment).equals(right.runStatement(environment)));
+            System.out.println(left.runStatement(environment).getClass().getName());
+            System.out.println(right.runStatement(environment).getClass().getName());
+            return left.runStatement(environment).equals(right.runStatement(environment));
+        }
+        throw new RuntimeException("TODO!!");
     }
 }

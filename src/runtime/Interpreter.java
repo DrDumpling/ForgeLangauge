@@ -7,10 +7,10 @@ import java.util.List;
 import java.util.Objects;
 
 public class Interpreter {
-    public static void run(List<ProgramNodeStatement> compiledProgram) {
+    public static void run(List<ProgramNodeStatement<Void>> compiledProgram) {
         Environment environment = new Environment();
 
-        ProgramNodeStatement mainStatement = compiledProgram.stream().filter(
+        ProgramNodeStatement<Void> mainStatement = compiledProgram.stream().filter(
                 x -> x instanceof FunctionStatement functionStatement &&
                 Objects.equals(functionStatement.functionName, "main")
         ).findFirst().get();

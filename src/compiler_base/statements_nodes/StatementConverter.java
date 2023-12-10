@@ -19,7 +19,7 @@ import java.util.Optional;
 import java.util.function.Function;
 
 public class StatementConverter {
-    static List<Pattern<ProgramToken, ProgramNodeStatement>> patterns =  new ArrayList<>() {{
+    static List<Pattern<ProgramToken, ProgramNodeStatement<Void>>> patterns =  new ArrayList<>() {{
         add(FunctionStatement.getPattern());
         add(IfStatement.getPattern());
         add(ReturnStatement.getPattern());
@@ -34,14 +34,14 @@ public class StatementConverter {
             BasicValueNode::matches
     );
 
-    public static List<ProgramNodeStatement> convert(List<ProgramToken> tokens) {
-        return new PatternConverter<ProgramToken, ProgramNodeStatement>().convert(
+    public static List<ProgramNodeStatement<Void>> convert(List<ProgramToken> tokens) {
+        return new PatternConverter<ProgramToken, ProgramNodeStatement<Void>>().convert(
                 tokens,
                 patterns
         );
     }
 
-    public static EvaluatedNode evaluateTokens(List<ProgramToken> inputTokens) {
+    public static <T> EvaluatedNode<T> evaluateTokens(List<ProgramToken> inputTokens) {
         for (Function<List<ProgramToken>, Optional<EvaluatedNode>> matcher : nodeMatchers) {
             Optional<EvaluatedNode> node = matcher.apply(inputTokens);
             if (node.isPresent()) {

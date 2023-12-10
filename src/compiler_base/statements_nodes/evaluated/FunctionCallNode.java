@@ -1,6 +1,7 @@
 package compiler_base.statements_nodes.evaluated;
 
 import compiler_base.statements_nodes.StatementConverter;
+import compiler_base.statements_nodes.block_statements.FunctionStatement;
 import compiler_base.tokens.ProgramToken;
 import compiler_base.tokens.non_specific.CommaToken;
 import compiler_base.tokens.non_specific.NameToken;
@@ -9,9 +10,13 @@ import runtime.Environment;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
+import static compiler_base.Compiler.functionMap;
+
 public class FunctionCallNode implements EvaluatedNode {
+    FunctionStatement functionStatement;
     String functionName;
     List<EvaluatedNode> params;
 
@@ -55,9 +60,21 @@ public class FunctionCallNode implements EvaluatedNode {
     }
 
     @Override
-    public void runStatement(Environment environment) {
+    public Void runStatement(Environment environment) {
+        if(Objects.isNull(functionStatement)) {
+            functionStatement = functionMap.get(this.functionName);
+        }
+
         Environment newEnvironment = new Environment();
+        for(int i = 0; i < params.size(); i++) {
+            EvaluatedNode addedParam = params.get(i);
+            String paramName = functionStatement.takenVariables.get(i);
+            newEnvironment.addVariable(paramName, addedParam.runStatement(environment));
+        }
         System.out.println("running: " + this.functionName + " | params: " + this.params);
+        functionStatement.runStatement(newEnvironment);
+
+        return null;
     }
 
     @Override

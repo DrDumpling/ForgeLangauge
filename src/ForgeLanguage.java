@@ -14,7 +14,7 @@ public class ForgeLanguage {
         forge.handleArgs(args);
 
         String program = new String(Files.readAllBytes(Paths.get(args[0])));
-        List<ProgramNodeStatement> compiledProgram = Compiler.compile(program);
+        List<ProgramNodeStatement<Void>> compiledProgram = Compiler.compile(program);
         System.out.println(compiledProgram);
         Interpreter.run(compiledProgram);
     }

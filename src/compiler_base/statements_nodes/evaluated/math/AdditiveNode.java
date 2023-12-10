@@ -10,22 +10,22 @@ import runtime.Environment;
 import java.util.List;
 import java.util.Optional;
 
-public sealed class AdditiveNode implements EvaluatedNode {
+public sealed class AdditiveNode implements EvaluatedNode<Integer> {
     static final class AdditionNode extends AdditiveNode {
-        AdditionNode(EvaluatedNode left, EvaluatedNode right) {
+        AdditionNode(EvaluatedNode<Integer> left, EvaluatedNode<Integer> right) {
             super(left, right);
         }
     }
     static final class MinusNode extends AdditiveNode {
-        MinusNode(EvaluatedNode left, EvaluatedNode right) {
+        MinusNode(EvaluatedNode<Integer> left, EvaluatedNode<Integer> right) {
             super(left, right);
         }
     }
 
-    final EvaluatedNode left;
-    final EvaluatedNode right;
+    final EvaluatedNode<Integer> left;
+    final EvaluatedNode<Integer> right;
 
-    private AdditiveNode(EvaluatedNode left, EvaluatedNode right) {
+    private AdditiveNode(EvaluatedNode<Integer> left, EvaluatedNode<Integer> right) {
         this.left = left;
         this.right = right;
     }
@@ -60,7 +60,7 @@ public sealed class AdditiveNode implements EvaluatedNode {
     }
 
     @Override
-    public void runStatement(Environment environment) {
-
+    public Integer runStatement(Environment environment) {
+        return 1;
     }
 }

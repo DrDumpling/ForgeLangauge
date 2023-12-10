@@ -7,8 +7,8 @@ import tools.Pattern;
 import java.util.Optional;
 
 public final class NumericalToken implements ProgramToken {
-    public final long heldValue;
-    public NumericalToken(Long input) {
+    public final int heldValue;
+    public NumericalToken(Integer input) {
         heldValue = input;
     }
 
@@ -30,7 +30,7 @@ public final class NumericalToken implements ProgramToken {
 
                 return Optional.of(
                         ConvertResult.of(
-                                new NumericalToken(Long.parseLong(numericalString.toString())),
+                                new NumericalToken(Integer.parseInt(numericalString.toString())),
                                 numericalString.length()
                         )
                 );

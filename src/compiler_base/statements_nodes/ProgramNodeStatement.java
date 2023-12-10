@@ -2,7 +2,7 @@ package compiler_base.statements_nodes;
 
 import runtime.Environment;
 
-public interface ProgramNodeStatement {
+public interface ProgramNodeStatement<T> {
 
-    void runStatement(Environment environment);
+    T runStatement(Environment environment);
 }

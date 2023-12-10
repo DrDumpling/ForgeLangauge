@@ -13,14 +13,14 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Optional;
 
-public class ReturnStatement implements ProgramNodeStatement {
-    EvaluatedNode returnedValue;
+public class ReturnStatement<T> implements ProgramNodeStatement<Void> {
+    EvaluatedNode<T> returnedValue;
 
     ReturnStatement(EvaluatedNode returnedValue) {
         this.returnedValue = returnedValue;
     }
 
-    public static Pattern<ProgramToken, ProgramNodeStatement> getPattern() {
+    public static Pattern<ProgramToken, ProgramNodeStatement<Void>> getPattern() {
         return (input, i) -> {
             if(!(input.get(i) instanceof KeywordToken keywordToken && keywordToken.heldKeyword == KeywordToken.Keyword.RETURN))
                 return Optional.empty();
@@ -43,8 +43,8 @@ public class ReturnStatement implements ProgramNodeStatement {
     }
 
     @Override
-    public void runStatement(Environment environment) {
-
+    public Void runStatement(Environment environment) {
+        return null;
     }
 
     @Override

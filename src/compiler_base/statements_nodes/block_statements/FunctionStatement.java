@@ -1,5 +1,6 @@
 package compiler_base.statements_nodes.block_statements;
 
+import compiler_base.Compiler;
 import compiler_base.statements_nodes.ProgramNodeStatement;
 import compiler_base.statements_nodes.StatementConverter;
 import compiler_base.tokens.ProgramToken;
@@ -19,12 +20,14 @@ import java.util.Optional;
 
 public class FunctionStatement extends BlockStatement {
     public String functionName;
-    List<String> takenVariables;
+    public List<String> takenVariables;
 
-    FunctionStatement(String functionName, List<String> takenVariables, List<ProgramNodeStatement> programNodeStatements) {
+    FunctionStatement(String functionName, List<String> takenVariables, List<ProgramNodeStatement<Void>> programNodeStatements) {
         this.functionName = functionName;
         this.takenVariables = takenVariables;
         this.heldStatements = programNodeStatements;
+
+        Compiler.functionMap.put(functionName, this);
     }
 
     //starts with fun, valid name, (
@@ -41,7 +44,7 @@ public class FunctionStatement extends BlockStatement {
         return input.get(i + 2) == UnfixedOperator.OPENING_PARENTHESES;
     }
 
-    public static Pattern<ProgramToken, ProgramNodeStatement> getPattern() {
+    public static Pattern<ProgramToken, ProgramNodeStatement<Void>> getPattern() {
         return (input, i) -> {
             List<String> takenVariables = new ArrayList<>();
             String functionName;
@@ -93,7 +96,7 @@ public class FunctionStatement extends BlockStatement {
             } else return Optional.empty();
 
             List<ProgramToken> parsedStatements = input.subList(afterParamsIndex + 1, matchingBracePosition);
-            List<ProgramNodeStatement> heldStatements = StatementConverter.convert(parsedStatements);
+            List<ProgramNodeStatement<Void>> heldStatements = StatementConverter.convert(parsedStatements);
 
             return Optional.of(ConvertResult.of(new FunctionStatement(functionName, takenVariables, heldStatements),
                     matchingBracePosition - i + 1));
@@ -101,11 +104,12 @@ public class FunctionStatement extends BlockStatement {
     }
 
     @Override
-    public void runStatement(Environment environment) {
-        System.out.println("running: " + this.functionName);
+    public Void runStatement(Environment environment) {
         for(ProgramNodeStatement currentStatement: heldStatements) {
             currentStatement.runStatement(environment);
         }
+
+        return null;
     }
 
     @Override
