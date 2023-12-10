@@ -83,6 +83,12 @@ public sealed class RelationalNode implements EvaluatedNode<Boolean> {
         if(this instanceof RelationalNode.NotEqualNode) {
             return !left.runStatement(environment).equals(right.runStatement(environment));
         }
+        if(this instanceof RelationalNode.LessThanNode) {
+            return (Integer)left.runStatement(environment) < (Integer)right.runStatement(environment);
+        }
+        if(this instanceof RelationalNode.GreaterThanNode) {
+            return (Integer)left.runStatement(environment) > (Integer)right.runStatement(environment);
+        }
         throw new RuntimeException("TODO!!");
     }
 }

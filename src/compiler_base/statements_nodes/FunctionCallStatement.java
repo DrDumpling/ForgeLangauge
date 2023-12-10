@@ -20,11 +20,18 @@ public class FunctionCallStatement implements ProgramNodeStatement {
 
     public static Pattern<ProgramToken, ProgramNodeStatement<Void>> getPattern() {
         return (input, i) -> {
-            if(!(input.get(input.size() - 1) instanceof StatementEndToken)) {
-                return Optional.empty();
+            System.out.println(input);
+            int statementEndIndex = 0;
+            for(; statementEndIndex < input.size(); statementEndIndex++) {
+                if(input.get(statementEndIndex) instanceof StatementEndToken) break;
             }
 
-            List<ProgramToken> evaluatedTokens = input.subList(0, input.size());
+            if(!(input.get(statementEndIndex) instanceof StatementEndToken)) return Optional.empty();
+
+
+            List<ProgramToken> evaluatedTokens = input.subList(0, statementEndIndex);
+            System.out.println(evaluatedTokens);
+
             EvaluatedNode evaluatedNode = StatementConverter.evaluateTokens(evaluatedTokens);
 
             if (evaluatedNode instanceof FunctionCallNode functionCallNode) {
