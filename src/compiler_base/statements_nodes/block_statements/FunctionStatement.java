@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Optional;
 
-public class FunctionStatement extends BlockStatement {
+public class FunctionStatement<T> extends BlockStatement<T> {
     public String functionName;
     public List<String> takenVariables;
 
@@ -104,12 +104,8 @@ public class FunctionStatement extends BlockStatement {
     }
 
     @Override
-    public Void runStatement(Environment environment) {
-        for(ProgramNodeStatement currentStatement: heldStatements) {
-            currentStatement.runStatement(environment);
-        }
-
-        return null;
+    public T runStatement(Environment environment) {
+        return this.runBlock(environment);
     }
 
     @Override

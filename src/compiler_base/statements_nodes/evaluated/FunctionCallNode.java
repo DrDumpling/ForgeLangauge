@@ -15,8 +15,8 @@ import java.util.Optional;
 
 import static compiler_base.Compiler.functionMap;
 
-public class FunctionCallNode implements EvaluatedNode {
-    FunctionStatement functionStatement;
+public class FunctionCallNode<T> implements EvaluatedNode<T> {
+    FunctionStatement<T> functionStatement;
     String functionName;
     List<EvaluatedNode> params;
 
@@ -60,7 +60,7 @@ public class FunctionCallNode implements EvaluatedNode {
     }
 
     @Override
-    public Void runStatement(Environment environment) {
+    public T runStatement(Environment environment) {
         if(Objects.isNull(functionStatement)) {
             functionStatement = functionMap.get(this.functionName);
         }
@@ -71,7 +71,7 @@ public class FunctionCallNode implements EvaluatedNode {
             String paramName = functionStatement.takenVariables.get(i);
             newEnvironment.addVariable(paramName, addedParam.runStatement(environment));
         }
-        System.out.println("running: " + this.functionName + " | params: " + this.params);
+
         functionStatement.runStatement(newEnvironment);
 
         return null;

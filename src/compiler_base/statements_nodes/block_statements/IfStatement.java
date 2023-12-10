@@ -1,8 +1,8 @@
 package compiler_base.statements_nodes.block_statements;
 
-import compiler_base.statements_nodes.evaluated.EvaluatedNode;
 import compiler_base.statements_nodes.ProgramNodeStatement;
 import compiler_base.statements_nodes.StatementConverter;
+import compiler_base.statements_nodes.evaluated.EvaluatedNode;
 import compiler_base.tokens.ProgramToken;
 import compiler_base.tokens.non_specific.KeywordToken;
 import compiler_base.tokens.operators.UnfixedOperator;
@@ -13,7 +13,7 @@ import tools.Pattern;
 import java.util.List;
 import java.util.Optional;
 
-public class IfStatement extends BlockStatement {
+public class IfStatement<T> extends BlockStatement<T> {
     EvaluatedNode<Boolean> evaluatedNode;
 
     IfStatement(List<ProgramNodeStatement<Void>> programNodeStatements, EvaluatedNode<Boolean> evaluatedNode) {
@@ -51,11 +51,9 @@ public class IfStatement extends BlockStatement {
     }
 
     @Override
-    public Void runStatement(Environment environment) {
+    public T runStatement(Environment environment) {
         if(evaluatedNode.runStatement(environment)) {
-            for(ProgramNodeStatement<Void> heldStatement: heldStatements) {
-                heldStatement.runStatement(environment);
-            }
+            return this.runBlock(environment);
         }
         return null;
     }

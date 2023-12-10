@@ -13,10 +13,10 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Optional;
 
-public class ReturnStatement<T> implements ProgramNodeStatement<Void> {
+public class ReturnStatement<T> implements ProgramNodeStatement<T> {
     EvaluatedNode<T> returnedValue;
 
-    ReturnStatement(EvaluatedNode returnedValue) {
+    ReturnStatement(EvaluatedNode<T> returnedValue) {
         this.returnedValue = returnedValue;
     }
 
@@ -43,8 +43,8 @@ public class ReturnStatement<T> implements ProgramNodeStatement<Void> {
     }
 
     @Override
-    public Void runStatement(Environment environment) {
-        return null;
+    public T runStatement(Environment environment) {
+        return returnedValue.runStatement(environment);
     }
 
     @Override
