@@ -10,15 +10,25 @@ import runtime.Environment;
 import java.util.List;
 import java.util.Optional;
 
-public sealed class AdditiveNode implements EvaluatedNode<Integer> {
+public abstract sealed class AdditiveNode implements EvaluatedNode<Integer> {
     static final class AdditionNode extends AdditiveNode {
         AdditionNode(EvaluatedNode<Integer> left, EvaluatedNode<Integer> right) {
             super(left, right);
+        }
+
+        @Override
+        public Integer runStatement(Environment environment) {
+            return left.runStatement(environment) + right.runStatement(environment);
         }
     }
     static final class MinusNode extends AdditiveNode {
         MinusNode(EvaluatedNode<Integer> left, EvaluatedNode<Integer> right) {
             super(left, right);
+        }
+
+        @Override
+        public Integer runStatement(Environment environment) {
+            return left.runStatement(environment) - right.runStatement(environment);
         }
     }
 
@@ -57,10 +67,5 @@ public sealed class AdditiveNode implements EvaluatedNode<Integer> {
     @Override
     public String toString() {
         return this.getClass().getSimpleName() + ": " + left + ", " + right;
-    }
-
-    @Override
-    public Integer runStatement(Environment environment) {
-        return 1;
     }
 }

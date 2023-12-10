@@ -61,20 +61,24 @@ public class FunctionCallNode<T> implements EvaluatedNode<T> {
 
     @Override
     public T runStatement(Environment environment) {
+        // TODO: NEED TO ADD A MORE PERMANENT HOME FOR LIBRARY STATEMENTS
+        if(functionName.equals("print")) {
+            System.out.println(params.get(0).runStatement(environment));
+            return null;
+        }
         if(Objects.isNull(functionStatement)) {
             functionStatement = functionMap.get(this.functionName);
         }
 
         Environment newEnvironment = new Environment();
+
         for(int i = 0; i < params.size(); i++) {
             EvaluatedNode addedParam = params.get(i);
             String paramName = functionStatement.takenVariables.get(i);
             newEnvironment.addVariable(paramName, addedParam.runStatement(environment));
         }
 
-        functionStatement.runStatement(newEnvironment);
-
-        return null;
+        return functionStatement.runStatement(newEnvironment);
     }
 
     @Override

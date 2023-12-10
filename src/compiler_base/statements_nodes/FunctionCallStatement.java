@@ -41,4 +41,9 @@ public class FunctionCallStatement implements ProgramNodeStatement {
 
         return null;
     }
+
+    @Override
+    public String toString() {
+        return calledFunction.toString();
+    }
 }
